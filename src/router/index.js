@@ -8,7 +8,20 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    children: [
+      {
+        path: '/camera',
+        name: 'camera',
+        meta: { layout: 'main' },
+        component: () => import('../views/Camera.vue')
+      },
+      {
+        path: '/products',
+        name: 'products',
+        meta: { layout: 'main' }
+      }
+    ]
   },
   {
     path: '/register',
