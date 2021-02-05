@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
+const token = true
+
 const routes = [
   {
     path: '/',
@@ -17,11 +19,19 @@ const routes = [
         component: () => import('../views/Camera.vue')
       },
       {
-        path: '/products',
-        name: 'products',
-        meta: { layout: 'main' }
+        path: '/calendar',
+        name: 'calendar',
+        meta: { layout: 'main' },
+        component: () => import('../views/Сalendar.vue')
       }
-    ]
+    ],
+    beforeEnter (to, from, next) {
+      if (token) {
+        next()
+      } else {
+        router.push({ name: 'login' })
+      }
+    }
   },
   {
     path: '/register',
@@ -42,5 +52,15 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+// router.beforeEach((to, from, next) => {
+//   // console.log(to, from)
+//   // console.log(from.name !== 'login')
+//   if (token) {
+//     next()
+//   } else {
+//     router.push({ name: 'login' })
+//   }
+// })
 
 export default router

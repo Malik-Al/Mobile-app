@@ -26,7 +26,7 @@
     >
       <q-list>
         <q-item-label header>Essential Links</q-item-label>
-        <q-item clickable tag="a" target="_blank" router-link to="/camera">
+        <q-item clickable tag="a" router-link to="/camera">
           <q-item-section avatar>
             <q-icon name="school" />
           </q-item-section>
