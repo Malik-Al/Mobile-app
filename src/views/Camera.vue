@@ -23,6 +23,7 @@ export default {
   },
   methods: {
     getPicture () {
+      this.getLocation()
       const canvas = this.$refs.canvas
       const video = this.$refs.video
 
@@ -43,6 +44,12 @@ export default {
       })
 
       console.log(img)
+    },
+    getLocation () {
+      this.$getLocation()
+        .then(coordinates => {
+          console.log(coordinates)
+        })
     }
   }
 }
