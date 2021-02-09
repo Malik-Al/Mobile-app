@@ -3,8 +3,8 @@
 <div id="month-calendar">
 
     <ul class="month">
-        <li class="prev"><i class=""></i></li>
-        <li class="next"><i class=""></i></li>
+        <li @click="clickLeft" class="prev"><i>prev</i></li>
+        <li @click="clickRing" class="next"><i>next</i></li>
         <li class="month-name"></li>
         <li class="year-name"></li>
     </ul>
@@ -30,6 +30,14 @@
 </template>
 <script>
 export default {
+  methods: {
+    clickLeft: function () {
+      return this.prev
+    },
+    clickRing: function () {
+      return this.next
+    }
+  },
   mounted () {
     const nowDate = new Date()
     const nowDateNumber = nowDate.getDate()
@@ -70,7 +78,7 @@ export default {
       // eslint-disable-next-line eqeqeq
       if (month == nowMonth && year == nowYear) {
         // eslint-disable-next-line no-undef
-        days = daysContainer.getElementsByTagName('li')
+        const days = daysContainer.getElementsByTagName('li')
         // eslint-disable-next-line no-undef
         days[monthPrefix + nowDateNumber - 1].classList.add('date-now')
       }
@@ -96,7 +104,7 @@ export default {
 
       const curYear = curDate.getFullYear()
       // eslint-disable-next-line no-undef
-      curMonth = curDate.getMonth()
+      const curMonth = curDate.getMonth()
 
       // eslint-disable-next-line no-undef
       setMonthCalendar(curYear, curMonth)
@@ -184,7 +192,7 @@ body{
     flex-wrap: wrap;
     justify-content: left;
     align-content: flex-start;
-    height: 14rem;
+    height: 25rem;
 }
 
 .days li{
@@ -193,9 +201,11 @@ body{
     display: inline-block;
     flex: 0 0 calc(100% / 7);
     text-align: center;
-    color: #999;
-    font-size: 0.9rem;
+    color: #000;
+    font-size: 1rem;
     line-height: 1rem;
+    border: 0.1rem groove black;
+    height: 4rem;
 }
 
 .days li.date-now{

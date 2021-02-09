@@ -6,9 +6,7 @@ import router from './router'
 import store from './store'
 import './quasar'
 import VueGeolocation from 'vue-browser-geolocation'
-// import VCalendar from 'v-calendar'
 
-// Vue.use(VCalendar)
 Vue.use(VueGeolocation)
 Vue.config.productionTip = false
 Vue.use(Vuelidate)
