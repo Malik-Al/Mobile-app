@@ -7,9 +7,7 @@
           dense
           round
         />
-
-                  <q-btn style="background: primary; color: white" glossy unelevated icon="camera_enhance"  router-link to="/camera"></q-btn>
-
+        <q-btn style="background: primary; color: white" glossy unelevated icon="camera_enhance"  router-link to="/camera"></q-btn>
       </q-toolbar>
     </q-header>
     <router-view></router-view>
