@@ -5,113 +5,79 @@
     <ul class="month">
         <li @click="clickLeft" class="prev"><i>prev</i></li>
         <li @click="clickRing" class="next"><i>next</i></li>
-        <li class="month-name"></li>
-        <li class="year-name"></li>
+        <li class="month-name">{{ monthInner }}</li>
+        <li class="year-name">{{ yearInner }}</li>
     </ul>
 
     <ul class="weekdays">
-        <li>Пн</li>
-        <li>Вт</li>
-        <li>Ср</li>
-        <li>Чт</li>
-        <li>Пт</li>
-        <li>Сб</li>
-        <li>Вс</li>
+        <li v-for="i in weekdaysDate" :key="i">{{i}}</li>
     </ul>
 
     <ul class="days">
-        <li>1</li>
-        <li>2</li>
-        <li>...</li>
-        <li>31</li>
+        <li v-for="(day, i) in monthPrefix" :key="i + 'prefix'">
+        </li>
+        <li v-for="(day, i) in monthDays" :key="i">
+          {{ i + 1 }}
+        </li>
     </ul>
+
 </div>
   </div>
 </template>
 <script>
 export default {
+  data () {
+    return {
+      monthName: ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'],
+      monthInner: '',
+      yearInner: '',
+      daysInner: '',
+      monthDays: '',
+      monthPrefix: '',
+      currentMonth: '',
+      weekdaysDate: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
+    }
+  },
   methods: {
-    clickLeft: function () {
-      return this.prev
+    clickLeft () {
+      const nowDate = new Date(this.yearInner, this.monthName.indexOf(this.monthInner))
+      nowDate.setMonth(nowDate.getMonth() - 1)
+
+      const nowYear = nowDate.getFullYear()
+      const nowMonth = nowDate.getMonth()
+
+      this.setMonthCalendar(nowYear, nowMonth)
     },
-    clickRing: function () {
-      return this.next
+    clickRing () {
+      const nowDate = new Date(this.yearInner, this.monthName.indexOf(this.monthInner))
+      nowDate.setMonth(nowDate.getMonth() + 1)
+
+      const nowYear = nowDate.getFullYear()
+      const nowMonth = nowDate.getMonth()
+
+      this.setMonthCalendar(nowYear, nowMonth)
+    },
+    setMonthCalendar (year, month) {
+      const monthDays = new Date(year, month + 1, 0).getDate()
+      const monthPrefix = new Date(year, month, 0).getDay()
+      this.monthDays = new Array(+monthDays).fill(0)
+      console.log(this.monthDays)
+      this.monthPrefix = monthPrefix
+      this.monthInner = this.monthName[month]
+      this.yearInner = year
     }
   },
   mounted () {
     const nowDate = new Date()
-    const nowDateNumber = nowDate.getDate()
     const nowMonth = nowDate.getMonth()
     const nowYear = nowDate.getFullYear()
-    const container = document.getElementById('month-calendar')
-    const monthContainer = container.getElementsByClassName('month-name')[0]
-    const yearContainer = container.getElementsByClassName('year-name')[0]
-    const daysContainer = container.getElementsByClassName('days')[0]
-    const prev = container.getElementsByClassName('prev')[0]
-    const next = container.getElementsByClassName('next')[0]
-    const monthName = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь']
 
-    // eslint-disable-next-line no-unused-vars
-    console.log(nowDate.getFullYear())
-
-    function setMonthCalendar (year, month) {
-      const monthDays = new Date(year, month + 1, 0).getDate()
-      const monthPrefix = new Date(year, month, 0).getDay()
-      let monthDaysText = ''
-
-      monthContainer.textContent = monthName[month]
-      yearContainer.textContent = year
-      daysContainer.innerHTML = ''
-
-      if (monthPrefix > 0) {
-        for (let i = 1; i <= monthPrefix; i++) {
-          monthDaysText += '<li></li>'
-        }
-      }
-
-      for (let i = 1; i <= monthDays; i++) {
-        monthDaysText += '<li>' + i + '</li>'
-      }
-
-      daysContainer.innerHTML = monthDaysText
-
-      // eslint-disable-next-line eqeqeq
-      if (month == nowMonth && year == nowYear) {
-        // eslint-disable-next-line no-undef
-        const days = daysContainer.getElementsByTagName('li')
-        // eslint-disable-next-line no-undef
-        days[monthPrefix + nowDateNumber - 1].classList.add('date-now')
-      }
-    }
-
-    setMonthCalendar(nowYear, nowMonth)
-
-    prev.onclick = function () {
-      const curDate = new Date(yearContainer.textContent, monthName.indexOf(monthContainer.textContent))
-
-      curDate.setMonth(curDate.getMonth() - 1)
-
-      const curYear = curDate.getFullYear()
-      const curMonth = curDate.getMonth()
-
-      setMonthCalendar(curYear, curMonth)
-    }
-
-    next.onclick = function () {
-      const curDate = new Date(yearContainer.textContent, monthName.indexOf(monthContainer.textContent))
-
-      curDate.setMonth(curDate.getMonth() + 1)
-
-      const curYear = curDate.getFullYear()
-      // eslint-disable-next-line no-undef
-      const curMonth = curDate.getMonth()
-
-      // eslint-disable-next-line no-undef
-      setMonthCalendar(curYear, curMonth)
-    }
+    this.currentMonth = nowDate
+    this.setMonthCalendar(nowYear, nowMonth)
   }
 }
 </script>
+
 <style>
 *{
     box-sizing: border-box;
@@ -123,6 +89,8 @@ body{
 
 /* месяцы и годы */
 #month-calendar{
+    margin-top: 1%;
+    position: fixed;
     width: 100%;
 }
 

@@ -6,7 +6,7 @@
         filled type="text"
         v-model="email"
         label="Your email "
-        hint="email and surname"
+        hint="email"
         :class="{ invalid: ($v.email.$dirty && !$v.email.required) || ($v.email.$dirty && !$v.email.email) }"
       />
       <small
