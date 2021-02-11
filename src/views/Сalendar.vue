@@ -1,10 +1,9 @@
 <template>
   <div>
 <div id="month-calendar">
-
     <ul class="month">
-        <li @click="clickLeft" class="prev"><i>prev</i></li>
-        <li @click="clickRing" class="next"><i>next</i></li>
+        <q-fab-action @click="clickLeft"  color="primary" icon="keyboard_arrow_left" class="prev"></q-fab-action>
+        <q-fab-action @click="clickRing"  color="primary" icon="keyboard_arrow_right" class="next"></q-fab-action>
         <li class="month-name">{{ monthInner }}</li>
         <li class="year-name">{{ yearInner }}</li>
     </ul>
@@ -20,7 +19,6 @@
           {{ i + 1 }}
         </li>
     </ul>
-
 </div>
   </div>
 </template>
@@ -40,6 +38,7 @@ export default {
   },
   methods: {
     clickLeft () {
+      this.showLoading()
       const nowDate = new Date(this.yearInner, this.monthName.indexOf(this.monthInner))
       nowDate.setMonth(nowDate.getMonth() - 1)
 
@@ -49,6 +48,7 @@ export default {
       this.setMonthCalendar(nowYear, nowMonth)
     },
     clickRing () {
+      this.showLoading()
       const nowDate = new Date(this.yearInner, this.monthName.indexOf(this.monthInner))
       nowDate.setMonth(nowDate.getMonth() + 1)
 
@@ -65,6 +65,20 @@ export default {
       this.monthPrefix = monthPrefix
       this.monthInner = this.monthName[month]
       this.yearInner = year
+    },
+    showLoading () {
+      console.log(this.$q)
+      this.$q.loading.show()
+      this.timer = setTimeout(() => {
+        this.$q.loading.hide()
+        this.timer = undefined
+      }, 2000)
+    }
+  },
+  beforeDestroy () {
+    if (this.timer !== undefined) {
+      clearTimeout(this.timer)
+      this.$q.loading.hide()
     }
   },
   mounted () {
@@ -114,16 +128,16 @@ body{
     font-weight: 700;
 }
 
-.month li.prev,
+/* .month li.prev,
 .month li.next{
     cursor: pointer;
-}
+} */
 
-.month li.prev{
+.prev{
     float: left;
 }
 
-.month li.next{
+.next{
     float: right;
 }
 
