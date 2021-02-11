@@ -97,7 +97,7 @@ body{
 .month{
     margin: 0;
     padding: 3rem 2rem 2rem;
-    background: #555555;
+    background:#A80DF5 ;
     text-align: center;
     width: 100%;
     color: #ffffff;
@@ -136,7 +136,7 @@ body{
 .weekdays{
     margin: 0;
     padding: 1rem 0;
-    background-color: #dddddd;
+    background-color: white;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -154,7 +154,7 @@ body{
 .days{
     margin: 0;
     padding: 1rem 0;
-    background-color: #eeeeee;
+    background-color:white;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -172,7 +172,7 @@ body{
     color: #000;
     font-size: 1rem;
     line-height: 1rem;
-    border: 0.1rem groove black;
+    border: 0.1rem groove #d699f0;
     height: 4rem;
 }
 
