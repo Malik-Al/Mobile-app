@@ -72,7 +72,7 @@ export default {
       this.timer = setTimeout(() => {
         this.$q.loading.hide()
         this.timer = undefined
-      }, 2000)
+      }, 1000)
     }
   },
   beforeDestroy () {

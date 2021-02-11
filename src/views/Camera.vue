@@ -2,12 +2,23 @@
 <div class="container" id="videoElement">
   <video autoplay="true" ref="video">
   </video>
-  <q-btn v-on:click="getPicture" color="secondary" label="Yellow ripple" no-caps/>
+
+    <div class="q-pa-md">
+        <div class="q-gutter-md" style="max-width: 300px">
+             <q-input standout="bg-teal text-white"  type="text" v-model="input" label="Custom standout" />
+             <q-btn @click="getPicture" color="secondary" label="Yellow ripple" no-caps/>
+       </div>
+    </div>
+
   <canvas ref="canvas"></canvas>
 </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
+  data: () => ({
+    input: ''
+  }),
   mounted () {
     const video = this.$refs.video
 
@@ -42,7 +53,16 @@ export default {
           resolve(blob)
         }, 'image/jpeg')
       })
-
+      axios({
+        method: 'post',
+        url: 'http://82.148.18.248:3000/user',
+        data: {
+          username: this.input,
+          face: 'Flintstone'
+        }
+      }).then((res) => {
+        console.log(res)
+      })
       console.log(img)
     },
     getLocation () {
