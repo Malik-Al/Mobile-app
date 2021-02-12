@@ -72,7 +72,7 @@ export default {
       this.timer = setTimeout(() => {
         this.$q.loading.hide()
         this.timer = undefined
-      }, 1000)
+      }, 500)
     }
   },
   beforeDestroy () {
@@ -103,7 +103,7 @@ body{
 
 /* месяцы и годы */
 #month-calendar{
-    margin-top: 1%;
+    margin-top: 3%;
     position: fixed;
     width: 100%;
 }

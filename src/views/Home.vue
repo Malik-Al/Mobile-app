@@ -23,6 +23,10 @@ export default {
     return {
       leftDrawerOpen: false
     }
+  },
+  mounted () {
+    this.$router.push('/camera')
   }
 }
+
 </script>

@@ -4,17 +4,26 @@
   </video>
 
     <div class="q-pa-md">
-        <div class="q-gutter-md" style="max-width: 300px">
-             <q-input standout="bg-teal text-white"  type="text" v-model="input" label="Custom standout" />
-             <q-btn @click="getPicture" color="secondary" label="Yellow ripple" no-caps/>
+        <div class="q-gutter-md" style="max-width: 300px" >
+                  <q-input dark type="text" v-model="input" label="Name"></q-input>
+             <div id="enter-send">
+                  <q-btn @click="getPicture" color="secondary" label="Send" no-caps/>
+                  <q-btn @click="startTimer" color="secondary" label="Start" no-caps/>
+             </div>
        </div>
     </div>
 
-  <canvas ref="canvas"></canvas>
+    <div class="q-pa-md">
+        <div class="q-gutter-md" style="max-width: 300px" >
+           <canvas ref="canvas"></canvas>
+        </div>
+    </div>
+
 </div>
 </template>
 <script>
 import axios from 'axios'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data: () => ({
     input: ''
@@ -32,7 +41,24 @@ export default {
         })
     }
   },
+  computed: {
+    ...mapGetters([
+      'id'
+    ])
+  },
   methods: {
+    ...mapActions({ saveId: 'save_id' }),
+    startTimer () {
+      axios({
+        method: 'post',
+        url: 'http://82.148.18.248:3000/timer',
+        data: {
+          userId: this.id
+        }
+      }).then((res) => {
+        console.log(res.data)
+      })
+    },
     getPicture () {
       this.getLocation()
       const canvas = this.$refs.canvas
@@ -53,6 +79,7 @@ export default {
           resolve(blob)
         }, 'image/jpeg')
       })
+      // TODO userId
       axios({
         method: 'post',
         url: 'http://82.148.18.248:3000/user',
@@ -61,8 +88,11 @@ export default {
           face: 'Flintstone'
         }
       }).then((res) => {
-        console.log(res)
+        console.log(res.data)
+        this.saveId(res.data._id ? res.data._id : res.data)
       })
+      console.log(this)
+
       console.log(img)
     },
     getLocation () {
@@ -75,6 +105,16 @@ export default {
 }
 </script>
 <style>
+#enter-send{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.face-id{
+  display: flex;
+  flex-direction: row;
+  justify-content:center;
+}
 small {
   color:red;
 }
