@@ -7,17 +7,17 @@
         <div class="q-gutter-md" style="max-width: 300px" >
                   <q-input dark type="text" v-model="input" label="Name"></q-input>
              <div id="enter-send">
-                  <q-btn @click="getPicture" color="secondary" label="Send" no-caps/>
-                  <q-btn @click="startTimer" color="secondary" label="Start" no-caps/>
+                  <q-btn @click="getPicture" color="secondary" label="Send " no-caps/>
+                  <q-btn  @click="playVid" color="secondary" label="Reset" no-caps/>
              </div>
 
               <div class="q-pa-md q-gutter-sm">
-                <q-btn  @click="playVid" color="primary"  label="RESET" style="width: 200px"></q-btn>
+                <q-btn  @click="startTimer" color="primary" label="Start" style="width: 200px"></q-btn>
               </div>
        </div>
     </div>
 
-    <div>
+    <div class="submenu">
        <canvas ref="canvas"></canvas>
     </div>
 
@@ -124,6 +124,9 @@ export default {
   flex-direction: row;
   justify-content:center;
 }
+.submenu {
+  display: none;
+}
 small {
   color:red;
 }
@@ -136,7 +139,7 @@ small {
 
 video{
   width: 100%;
-  height: 600px;
+  height: 400px;
 }
 canvas{
   width: 50%;
