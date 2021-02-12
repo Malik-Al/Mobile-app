@@ -25,7 +25,12 @@ export default {
     }
   },
   mounted () {
-    this.$router.push('/camera')
+    this.$router.push('/camera').catch(error => {
+      // eslint-disable-next-line eqeqeq
+      if (error.name != 'NavigationDuplicated') {
+        throw error
+      }
+    })
   }
 }
 

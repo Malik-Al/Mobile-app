@@ -3,20 +3,22 @@
   <video autoplay="true" ref="video">
   </video>
 
-    <div class="q-pa-md">
+    <div id="register-scrin">
         <div class="q-gutter-md" style="max-width: 300px" >
                   <q-input dark type="text" v-model="input" label="Name"></q-input>
              <div id="enter-send">
                   <q-btn @click="getPicture" color="secondary" label="Send" no-caps/>
                   <q-btn @click="startTimer" color="secondary" label="Start" no-caps/>
              </div>
+
+              <div class="q-pa-md q-gutter-sm">
+                <q-btn  @click="playVid" color="primary"  label="RESET" style="width: 200px"></q-btn>
+              </div>
        </div>
     </div>
 
-    <div class="q-pa-md">
-        <div class="q-gutter-md" style="max-width: 300px" >
-           <canvas ref="canvas"></canvas>
-        </div>
+    <div>
+       <canvas ref="canvas"></canvas>
     </div>
 
 </div>
@@ -61,6 +63,7 @@ export default {
     },
     getPicture () {
       this.getLocation()
+      this.pauseVid()
       const canvas = this.$refs.canvas
       const video = this.$refs.video
 
@@ -91,8 +94,6 @@ export default {
         console.log(res.data)
         this.saveId(res.data._id ? res.data._id : res.data)
       })
-      console.log(this)
-
       console.log(img)
     },
     getLocation () {
@@ -100,6 +101,14 @@ export default {
         .then(coordinates => {
           console.log(coordinates)
         })
+    },
+    pauseVid () {
+      const vid = this.$refs.video
+      vid.pause()
+    },
+    playVid () {
+      const vid = this.$refs.video
+      vid.play()
     }
   }
 }
@@ -110,7 +119,7 @@ export default {
   flex-direction: row;
   justify-content: space-between;
 }
-.face-id{
+#register-scrin{
   display: flex;
   flex-direction: row;
   justify-content:center;
@@ -130,7 +139,8 @@ video{
   height: 600px;
 }
 canvas{
-  margin-left: 18%;
+  width: 50%;
+
 }
 
 </style>
