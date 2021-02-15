@@ -8,11 +8,11 @@
                   <q-input dark type="text" v-model="input" label="Name"></q-input>
              <div id="enter-send">
                   <q-btn @click="getPicture" color="secondary" label="Send " no-caps/>
-                  <q-btn  @click="playVid" color="secondary" label="Reset" no-caps/>
+                  <q-btn @click="playVid" color="secondary" label="Reset" no-caps/>
              </div>
 
               <div class="q-pa-md q-gutter-sm">
-                <q-btn  @click="startTimer" color="primary" label="Start" style="width: 200px"></q-btn>
+                <q-btn  @click="sendImg" color="primary" label="Start" style="width: 200px"></q-btn>
               </div>
        </div>
     </div>
@@ -53,7 +53,7 @@ export default {
     startTimer () {
       axios({
         method: 'post',
-        url: 'http://82.148.18.248:3000/timer',
+        url: 'http://discoverykg.ddns.net:9292/timer',
         data: {
           userId: this.id
         }
@@ -61,13 +61,12 @@ export default {
         console.log(res.data)
       })
     },
-    getPicture () {
+    async getPicture () {
       this.getLocation()
       this.pauseVid()
       const canvas = this.$refs.canvas
       const video = this.$refs.video
-
-      const img = new Promise((resolve) => {
+      return new Promise((resolve) => {
         const ctx = canvas.getContext('2d')
         const w = video.videoWidth
         const h = video.videoHeight
@@ -83,18 +82,24 @@ export default {
         }, 'image/jpeg')
       })
       // TODO userId
+    },
+    async sendImg () {
+      const imgSend = await this.getPicture()
+      const formData = new FormData()
+      formData.append('image', new File([imgSend], 'image.jpg'))
+      formData.append('username', this.input)
+
       axios({
         method: 'post',
-        url: 'http://82.148.18.248:3000/user',
-        data: {
-          username: this.input,
-          face: 'Flintstone'
+        url: 'http://discoverykg.ddns.net:9292/user',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
       }).then((res) => {
         console.log(res.data)
         this.saveId(res.data._id ? res.data._id : res.data)
       })
-      console.log(img)
     },
     getLocation () {
       this.$getLocation()
