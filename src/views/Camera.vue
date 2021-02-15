@@ -5,22 +5,19 @@
 
     <div id="register-scrin">
         <div class="q-gutter-md" style="max-width: 300px" >
-                  <q-input dark type="text" v-model="input" label="Name"></q-input>
+                <q-input dark type="text" v-model="input" label="Name"></q-input>
              <div id="enter-send">
-                  <q-btn @click="getPicture" color="secondary" label="Send " no-caps/>
-                  <q-btn @click="playVid" color="secondary" label="Reset" no-caps/>
+                <q-btn @click="getPicture" color="secondary" label="Send " no-caps/>
+                <q-btn @click="playVid" color="secondary" label="Reset" no-caps/>
              </div>
-
-              <div class="q-pa-md q-gutter-sm">
-                <q-btn  @click="sendImg" color="primary" label="Start" style="width: 200px"></q-btn>
-              </div>
-       </div>
-    </div>
-
+                <div class="q-pa-md q-gutter-sm">
+                  <q-btn  @click="sendImg" color="primary" label="Start" style="width: 200px"></q-btn>
+                </div>
+          </div>
+        </div>
     <div class="submenu">
        <canvas ref="canvas"></canvas>
     </div>
-
 </div>
 </template>
 <script>
@@ -45,11 +42,15 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'id'
+      'id',
+      'username'
     ])
   },
   methods: {
-    ...mapActions({ saveId: 'save_id' }),
+    ...mapActions({
+      saveId: 'save_id',
+      userName: 'save_username'
+    }),
     startTimer () {
       axios({
         method: 'post',
@@ -81,14 +82,13 @@ export default {
           resolve(blob)
         }, 'image/jpeg')
       })
-      // TODO userId
     },
     async sendImg () {
       const imgSend = await this.getPicture()
       const formData = new FormData()
       formData.append('image', new File([imgSend], 'image.jpg'))
       formData.append('username', this.input)
-
+      this.$q.loading.show()
       axios({
         method: 'post',
         url: 'http://discoverykg.ddns.net:9292/user',
@@ -99,6 +99,9 @@ export default {
       }).then((res) => {
         console.log(res.data)
         this.saveId(res.data._id ? res.data._id : res.data)
+        this.userName(this.input)
+        this.$router.push('/calendar')
+        this.$q.loading.hide()
       })
     },
     getLocation () {

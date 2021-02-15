@@ -17,13 +17,33 @@
         </li>
         <li v-for="(day, i) in monthDays" :key="i">
           {{ i + 1 }}
-
         </li>
+        <span>{{username}}</span>
+            <!-- <div class="q-pa-md q-gutter-sm">
+              <q-btn label="Click me" color="primary" @click="persistent = true" />
+
+              <q-dialog v-model="persistent" persistent transition-show="scale" transition-hide="scale">
+                <q-card class="bg-teal text-white" style="width: 300px">
+                  <q-card-section>
+                    <div class="text-h6">Persistent</div>
+                  </q-card-section>
+
+                  <q-card-section class="q-pt-none">
+                    Click/Tap on the backdrop.
+                  </q-card-section>
+
+                  <q-card-actions align="right" class="bg-white text-teal">
+                    <q-btn flat label="OK" v-close-popup />
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
+            </div> -->
     </ul>
 </div>
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
@@ -34,10 +54,19 @@ export default {
       monthDays: '',
       monthPrefix: '',
       currentMonth: '',
-      weekdaysDate: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
+      weekdaysDate: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+      persistent: false
     }
   },
+  computed: {
+    ...mapGetters([
+      'username'
+    ])
+  },
   methods: {
+    ...mapActions({
+      userName: 'save_username'
+    }),
     clickLeft () {
       this.showLoading()
       const nowDate = new Date(this.yearInner, this.monthName.indexOf(this.monthInner))
@@ -187,7 +216,7 @@ body{
     color: #000;
     font-size: 1rem;
     line-height: 1rem;
-    border: 0.1rem groove #d699f0;
+    border: 0.1rem solid #a046c7;
     height: 4rem;
 }
 

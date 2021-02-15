@@ -8,7 +8,9 @@ import './quasar'
 import VueGeolocation from 'vue-browser-geolocation'
 import {
   Quasar,
-  Loading
+  Loading,
+  QDialog,
+  ClosePopup
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -17,6 +19,12 @@ Vue.use(Quasar, {
   },
   config: {
     loading: { /* look at QUASARCONFOPTIONS from the API card (bottom of page) */ }
+  },
+  components: {
+    QDialog
+  },
+  directives: {
+    ClosePopup
   }
 })
 
