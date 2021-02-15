@@ -18,7 +18,10 @@
         <li v-for="(day, i) in monthDays" :key="i">
           {{ i + 1 }}
         </li>
-        <span>{{username}}</span>
+        <span>
+          {{username}}
+          {{timerstart && timerstart.substr(11,5) }}
+        </span>
             <!-- <div class="q-pa-md q-gutter-sm">
               <q-btn label="Click me" color="primary" @click="persistent = true" />
 
@@ -60,12 +63,14 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'username'
+      'username',
+      'timerstart'
     ])
   },
   methods: {
     ...mapActions({
-      userName: 'save_username'
+      userName: 'save_username',
+      save_timerstart: 'save_timerstart'
     }),
     clickLeft () {
       this.showLoading()
@@ -119,6 +124,7 @@ export default {
     this.currentMonth = nowDate
     this.setMonthCalendar(nowYear, nowMonth)
   }
+
 }
 </script>
 

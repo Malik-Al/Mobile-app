@@ -43,13 +43,15 @@ export default {
   computed: {
     ...mapGetters([
       'id',
-      'username'
+      'username',
+      'timerstart'
     ])
   },
   methods: {
     ...mapActions({
       saveId: 'save_id',
-      userName: 'save_username'
+      userName: 'save_username',
+      save_timerstart: 'save_timerstart'
     }),
     startTimer () {
       axios({
@@ -60,6 +62,7 @@ export default {
         }
       }).then((res) => {
         console.log(res.data)
+        this.save_timerstart(res.data.start)
       })
     },
     async getPicture () {
@@ -89,7 +92,7 @@ export default {
       formData.append('image', new File([imgSend], 'image.jpg'))
       formData.append('username', this.input)
       this.$q.loading.show()
-      axios({
+      await axios({
         method: 'post',
         url: 'http://discoverykg.ddns.net:9292/user',
         data: formData,
@@ -100,6 +103,7 @@ export default {
         console.log(res.data)
         this.saveId(res.data._id ? res.data._id : res.data)
         this.userName(this.input)
+        this.startTimer()
         this.$router.push('/calendar')
         this.$q.loading.hide()
       })
