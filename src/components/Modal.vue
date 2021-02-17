@@ -22,9 +22,10 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  props: ['persistent'],
   data () {
-    return {}
+    return {
+      persistent: false
+    }
   },
   computed: {
     ...mapGetters([

@@ -54,13 +54,13 @@ const router = new VueRouter({
 })
 
 // router.beforeEach((to, from, next) => {
-//   // console.log(to, from)
-//   // console.log(from.name !== 'login')
-//   if (token) {
-//     next()
-//   } else {
-//     router.push({ name: 'login' })
-//   }
+// console.log(to, from)
+// console.log(from.name !== 'login')
+// if (token) {
+//   next()
+// } else {
+//   //   router.push({ name: 'camera' })
+//   // }
 // })
 
 export default router

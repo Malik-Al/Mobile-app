@@ -17,7 +17,7 @@
         </li>
         <li v-for="(day, i) in monthDays" :key="i">
           {{i + 1}}
-          <Modal :persistent="persistent"/>
+          <Modal />
         </li>
     </ul>
 </div>
@@ -44,6 +44,12 @@ export default {
     }
   },
   methods: {
+    openModal () {
+      this.persistent = true
+    },
+    closeModal () {
+      this.persistent = true
+    },
     clickLeft () {
       this.showLoading()
       const nowDate = new Date(this.yearInner, this.monthName.indexOf(this.monthInner))
@@ -107,14 +113,11 @@ export default {
 body{
     font-family: sans-serif;
 }
-
-/* месяцы и годы */
 #month-calendar{
     margin-top: 2%;
     position: fixed;
     width: 100%;
 }
-
 .month{
     margin: 0;
     padding: 3rem 2rem 2rem;
@@ -149,8 +152,6 @@ body{
     font-size: 1.2rem;
     font-weight: 400;
 }
-
-/* дни недели */
 .weekdays{
     margin: 0;
     padding: 1rem 0;
@@ -167,8 +168,6 @@ body{
     flex: 0 0 calc(100% / 7);
     text-align: center;
 }
-
-/* дни */
 .days{
     margin: 0;
     padding: 1rem 0;
@@ -201,5 +200,7 @@ body{
 .days li:hover {
   background-color: rgb(174, 221, 213);
 }
+@media screen and (max-width: 700px){
 
+}
 </style>
