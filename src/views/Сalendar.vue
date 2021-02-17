@@ -12,42 +12,23 @@
         <li v-for="i in weekdaysDate" :key="i">{{i}}</li>
     </ul>
 
-    <ul class="days">
+    <ul class="days" >
         <li v-for="(day, i) in monthPrefix" :key="i + 'prefix'">
         </li>
         <li v-for="(day, i) in monthDays" :key="i">
-          {{ i + 1 }}
+          {{i + 1}}
+          <Modal :persistent="persistent"/>
         </li>
-        <span>
-          {{username}}
-          {{timerstart && timerstart.substr(11,5) }}
-        </span>
-            <!-- <div class="q-pa-md q-gutter-sm">
-              <q-btn label="Click me" color="primary" @click="persistent = true" />
-
-              <q-dialog v-model="persistent" persistent transition-show="scale" transition-hide="scale">
-                <q-card class="bg-teal text-white" style="width: 300px">
-                  <q-card-section>
-                    <div class="text-h6">Persistent</div>
-                  </q-card-section>
-
-                  <q-card-section class="q-pt-none">
-                    Click/Tap on the backdrop.
-                  </q-card-section>
-
-                  <q-card-actions align="right" class="bg-white text-teal">
-                    <q-btn flat label="OK" v-close-popup />
-                  </q-card-actions>
-                </q-card>
-              </q-dialog>
-            </div> -->
     </ul>
 </div>
   </div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import Modal from '../components/Modal'
 export default {
+  components: {
+    Modal
+  },
   data () {
     return {
       monthName: ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'],
@@ -58,20 +39,11 @@ export default {
       monthPrefix: '',
       currentMonth: '',
       weekdaysDate: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-      persistent: false
+      persistent: false,
+      daysObj: {}
     }
   },
-  computed: {
-    ...mapGetters([
-      'username',
-      'timerstart'
-    ])
-  },
   methods: {
-    ...mapActions({
-      userName: 'save_username',
-      save_timerstart: 'save_timerstart'
-    }),
     clickLeft () {
       this.showLoading()
       const nowDate = new Date(this.yearInner, this.monthName.indexOf(this.monthInner))
@@ -124,7 +96,6 @@ export default {
     this.currentMonth = nowDate
     this.setMonthCalendar(nowYear, nowMonth)
   }
-
 }
 </script>
 
@@ -139,7 +110,7 @@ body{
 
 /* месяцы и годы */
 #month-calendar{
-    margin-top: 3%;
+    margin-top: 2%;
     position: fixed;
     width: 100%;
 }
@@ -163,12 +134,9 @@ body{
     text-transform: uppercase;
     font-weight: 700;
 }
-
-/* .month li.prev,
-.month li.next{
-    cursor: pointer;
-} */
-
+.red{
+  background-color:red;
+}
 .prev{
     float: left;
 }
@@ -230,4 +198,8 @@ body{
     color: #000;
     font-weight: 700;
 }
+.days li:hover {
+  background-color: rgb(174, 221, 213);
+}
+
 </style>
